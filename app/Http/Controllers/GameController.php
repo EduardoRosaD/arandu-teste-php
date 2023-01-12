@@ -7,6 +7,7 @@ use App\Models\Enemy;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use App\Contracts\GameObject;
 
 class GameController extends Controller
 {
@@ -18,6 +19,8 @@ class GameController extends Controller
 
     /** @var Collection<Enemy> */
     public $enemies;
+
+    public $gameOver = false;
 
     /**
      * Carrega as instâncias necessárias da sessão ou cria as
@@ -60,13 +63,14 @@ class GameController extends Controller
      * @return void
      */
     public function writeToSession()
-        
     {
+
         session([
             'player' => $this->player,
             'enemies' => $this->enemies,
             'score' => $this->score+5,
         ]);
+
     }
 
     /**
@@ -76,10 +80,20 @@ class GameController extends Controller
      * @param Request $request
      * @return void
      */
+    // public function gameoverF()
+    // {
+    //    $this->session()->flush();
+    //     $this->enemies->each(function (Enemy $enemy) {
+    //         if ($this->player->isCollidingWith($enemy)) {
+    //       return $this->gameoverF();
+    //         }
+    //     });
+
+    //     return view('gameover');
+    // }
     public function update(Request $request)
     {
         $this->load();
-
         $this->player->move($request->key);
 
         $this->enemies->each(function (Enemy $enemy) {
@@ -96,9 +110,17 @@ class GameController extends Controller
      */
     public function scene()
     {
+
         $this->load();
         $this->writeToSession();
-
+        $this->enemies->each(function (Enemy $enemy) {
+            if ($this->player->isCollidingWith($enemy)) {
+                $this->gameOver = true;
+            }
+        });
+         if($this->gameOver == true){
+           return redirect("gameover");
+         }
         return view('game');
     }
 

@@ -1,6 +1,6 @@
 <?php
 namespace App\Contracts;
-include('Movement.php');
+
 use App\Constants\Movement;
 
 abstract class GameObject
@@ -54,8 +54,6 @@ abstract class GameObject
      */
     public function move($direction)
     {
-
-       
         switch ($direction) {
             case  Movement::ARROWUP:
                 if($this->_y === 0){
@@ -85,7 +83,7 @@ abstract class GameObject
                 break;
 
             default:
-                # code...
+               //throw new \Exception('Invalid direction');
                 break;
         }
     }

@@ -60,11 +60,12 @@ class GameController extends Controller
      * @return void
      */
     public function writeToSession()
+        
     {
         session([
             'player' => $this->player,
             'enemies' => $this->enemies,
-            'score' => $this->score,
+            'score' => $this->score+5,
         ]);
     }
 

@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Contracts;
+include('Movement.php');
+use App\Constants\Movement;
 
 abstract class GameObject
 {
@@ -42,6 +43,7 @@ abstract class GameObject
     public function isCollidingWith(GameObject $object)
     {
         return $this->_x === $object->_x && $this->_y === $object->_y;
+
     }
 
     /**
@@ -52,20 +54,33 @@ abstract class GameObject
      */
     public function move($direction)
     {
+
+       
         switch ($direction) {
-            case 'ArrowUp':
+            case  Movement::ARROWUP:
+                if($this->_y === 0){
+                    $this->_y = 33;
+                }
                 $this->_y--;
                 break;
-
-            case 'ArrowDown':
+            case Movement::ARROWDOWN:
+                if($this->_y === 32){
+                    $this->_y = -1;
+                }
                 $this->_y++;
                 break;
 
-            case 'ArrowLeft':
+            case Movement::ARROWLEFT:
+                if($this->_x === 0){
+                    $this->_x = 33;
+                }
                 $this->_x--;
                 break;
 
-            case 'ArrowRight':
+            case Movement::ARROWRIGHT:
+                if($this->_x === 32){
+                    $this->_x = -1;
+                }
                 $this->_x++;
                 break;
 

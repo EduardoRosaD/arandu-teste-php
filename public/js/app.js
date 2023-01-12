@@ -19437,8 +19437,8 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /mnt/97fb2f28-9f80-45b1-996a-6cffbde28b5a/www/arandu-teste-php/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /mnt/97fb2f28-9f80-45b1-996a-6cffbde28b5a/www/arandu-teste-php/resources/css/app.css */"./resources/css/app.css");
+__webpack_require__(/*! C:\xampp\htdocs\arandu-teste-php\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\xampp\htdocs\arandu-teste-php\resources\css\app.css */"./resources/css/app.css");
 
 
 /***/ })

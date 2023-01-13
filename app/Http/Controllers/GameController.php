@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Constants\Map;
 use App\Models\Enemy;
 use App\Models\Player;
+use App\Models\Coin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use App\Contracts\GameObject;
@@ -21,6 +22,8 @@ class GameController extends Controller
     public $enemies;
 
     public $gameOver = false;
+
+    public $coin;
 
     /**
      * Carrega as instâncias necessárias da sessão ou cria as
@@ -42,6 +45,14 @@ class GameController extends Controller
             )
         );
 
+        $this->coin = session(
+            'coin',
+            new Coin(
+                rand(0, Map::WIDTH - 1),
+                rand(0, Map::HEIGHT - 1)
+            )
+        );
+
         // Instancia os inimigos a partir da seessão, se
         // a sessão não existir, gera uma coleção de
         // inimigos
@@ -50,11 +61,11 @@ class GameController extends Controller
             collect(Enemy::generateEnemies(Map::ENEMIES))
         );
 
+
         $this->score = session(
             'score',
             0
         );
-
     }
 
     /**
@@ -67,10 +78,10 @@ class GameController extends Controller
 
         session([
             'player' => $this->player,
+            'coin' => $this->coin,
             'enemies' => $this->enemies,
-            'score' => $this->score+5,
+            'score' => $this->score,
         ]);
-
     }
 
     /**
@@ -80,25 +91,19 @@ class GameController extends Controller
      * @param Request $request
      * @return void
      */
-    // public function gameoverF()
-    // {
-    //    $this->session()->flush();
-    //     $this->enemies->each(function (Enemy $enemy) {
-    //         if ($this->player->isCollidingWith($enemy)) {
-    //       return $this->gameoverF();
-    //         }
-    //     });
-
-    //     return view('gameover');
-    // }
     public function update(Request $request)
     {
+
         $this->load();
         $this->player->move($request->key);
-
+        $this->score = $this->score + 10;
         $this->enemies->each(function (Enemy $enemy) {
             $enemy->moveRandomDirection();
         });
+        if($this->player->isCollidingWith($this->coin)){
+            $this->coin->moveRandomDirection();
+            $this->score = $this->score + 1000;
+        }
 
         $this->writeToSession();
     }
@@ -118,10 +123,10 @@ class GameController extends Controller
                 $this->gameOver = true;
             }
         });
-         if($this->gameOver == true){
-           return redirect("gameover");
-         }
+
+        if ($this->gameOver == true) {
+            return redirect("gameover");
+        }
         return view('game');
     }
-
 }

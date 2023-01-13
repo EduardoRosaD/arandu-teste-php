@@ -395,12 +395,16 @@ border: rgb(0, 0, 0) 1px solid;
 }
 
 {{session('player')->render()}}
+{{session('coin')->render()}}
+
 
 @foreach (session('enemies') as $enemy)
 
 {{$enemy->render()}}
 
 @endforeach
+
+
 
 </style>
 

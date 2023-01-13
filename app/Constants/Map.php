@@ -27,4 +27,5 @@ class Map
      * @var integer
      */
     const ENEMIES = 40;
+
 }

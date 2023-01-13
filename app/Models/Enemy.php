@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Constants\Movement;
 use App\Constants\Map;
 use App\Contracts\GameObject;
 
@@ -79,7 +80,7 @@ class Enemy extends GameObject
      */
     public function moveRandomDirection()
     {
-        $directions = collect(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'idle']);
+        $directions = collect([ Movement::ARROWUP, Movement::ARROWDOWN, Movement::ARROWLEFT, Movement::ARROWRIGHT, 'idle']);
 
         $direction = $directions->random();
 

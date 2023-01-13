@@ -24,8 +24,6 @@ class Coin extends GameObject
         ] = $this->createRandomPosition();
 
         while ($this->isCollidingWith(request()->route()->controller->player)) {
-            // se foi gerado na mesma posição que o jogador,
-            // refaz a posição
             [
                 'x' => $x,
                 'y' => $y
@@ -38,7 +36,9 @@ class Coin extends GameObject
     public function render()
     {
         $css = "
-      .tile-{$this->x()}-{$this->y()}
+      .tile-{$this->x()}-{$this->y()}{
+        background-color: yellow;
+      }
       ";
 
         echo $css;
@@ -47,8 +47,9 @@ class Coin extends GameObject
     public function moveRandomDirection()
     {
         $directions = collect([ Movement::ARROWUP, Movement::ARROWDOWN, Movement::ARROWLEFT, Movement::ARROWRIGHT]);
-        $direction = $directions->random();
-        for ( $i = 0; $i < 10; $i++){
+
+        for ( $i = 0; $i < 50; $i++){
+            $direction = $directions->random();
             $this->move($direction);
         }
 
